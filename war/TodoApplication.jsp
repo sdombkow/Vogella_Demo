@@ -27,11 +27,12 @@ User user = userService.getCurrentUser();
 String url = userService.createLoginURL(request.getRequestURI());
 String urlLinktext = "Login";
 List<Todo> todos = new ArrayList<Todo>();
+boolean todosquestion = true;
             
 if (user != null){
     url = userService.createLogoutURL(request.getRequestURI());
     urlLinktext = "Logout";
-    todos = dao.getTodos(user.getUserId());
+    todosquestion = dao.getTodos(url);
 }
     
 %>

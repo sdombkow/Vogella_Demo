@@ -1,3 +1,2 @@
 # Module de_vogella_gae_java_todo
 # RPC service class, partial path of RPC policy file
-de.vogella.gae.java.todo.client.GreetingService, A2A0FE5CA97BD1FD2DD961D6C5AEFB8B.gwt.rpc
