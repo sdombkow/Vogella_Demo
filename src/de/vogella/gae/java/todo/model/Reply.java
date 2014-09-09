@@ -2,40 +2,37 @@ package de.vogella.gae.java.todo.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
-@Entity
+@PersistenceCapable
 public class Reply {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key id;
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
 
+	@Persistent
 	private Date create_date;
 	
-	@ManyToOne(optional = false)
-	private User user;
+	@Persistent
+	private Key user;
 
-	@ManyToOne(optional = false)
-	private Recording recording;
+	@Persistent
+	private Key recording;
 	
-	@ManyToOne(optional = false)
-	private Conversation conversation;
+	@Persistent
+	private Key conversation;
 	
-	public Reply(Date create_date, Conversation conversation, User user, Recording recording) {
+	public Reply(Date create_date) {
 		this.create_date = create_date;
-		this.conversation= conversation;
-		this.user = user;
-		this.recording =recording;
 	}
 	
-	public Key getID(){
-		return id;
+	public Key getKey(){
+		return key;
 	}
 
 	public Date getCreateDate(){
@@ -46,38 +43,27 @@ public class Reply {
 		this.create_date = date;
 	}
 	
-	public Conversation getConversation(){
+	public Key getConversation(){
 		return this.conversation;
 	}
 	
 	public void setConversation(Conversation convo){
-		this.conversation = convo;
-		if(!conversation.getReplies().contains(this)){
-			this.conversation.getReplies().add(this);
-		
-		}
+		this.conversation = convo.getKey();
 	}
 
-	public User getUser(){
+	public Key getUser(){
 		return this.user;
 	}
 	
 	public void setUser(User user){
-		this.user = user;
-		if(!user.getReplies().contains(this)){
-			this.user.getReplies().add(this);
-		}
+		this.user = user.getKey();
 	}
 
-	public Recording getRecording(){
+	public Key getRecording(){
 		return this.recording;
 	}
 
 	public void setRecording(Recording recording){
-		this.recording = recording;
-		if(!recording.getReplies().contains(this)){
-			this.recording.getReplies().add(this);
-		
-		}
+		this.recording = recording.getKey();
 	}
 }

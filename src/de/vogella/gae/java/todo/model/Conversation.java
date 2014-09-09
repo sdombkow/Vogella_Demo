@@ -4,77 +4,70 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
-@Entity
+@PersistenceCapable
 public class Conversation {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key id;
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
 
+	@Persistent
 	private String generatedName;
 
-	@OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
-	private List<UserConversation> userConversations;
+	@Persistent(mappedBy = "conversation")
+	private List<Key> userConversations;
 
-	@OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
-	private List<Reply> replies;
+	@Persistent(mappedBy = "conversation")
+	private List<Key> replies;
 
-	public Conversation(){
+	public Conversation() {
 		this.generateRandomName();
-		this.userConversations = new ArrayList<UserConversation> ();
-		this.replies = new ArrayList<Reply> ();
+		this.userConversations = new ArrayList<Key> ();
+		this.replies = new ArrayList<Key> ();
 	}
 	
-	public Key getID(){
-		return id;
+	public Key getKey() {
+		return key;
 	}
 
-	public void generateRandomName(){
+	public void generateRandomName() {
 		String[] array = {"Hello", "world", "DIC", "dream", "Cat", "Tom", "Heart", "Cool", "Awesome", "Dreamer"};
 		Random ran = new Random();
 		generatedName = array[ran.nextInt(array.length)] + " " + array[ran.nextInt(array.length)];
 	}
 
-	public String getGeneratedName(){
+	public String getGeneratedName() {
 		return this.generatedName;
 	}
 
-	public void setGeneratedName(String name){
+	public void setGeneratedName(String name) {
 		this.generatedName = name;
 	}
 
 	//methods for user conversations
-	public List<UserConversation> getUserConversations(){
+	public List<Key> getUserConversations() {
 		return this.userConversations;
 	}
 
 	public void addUserConversation(UserConversation reply) {
-		if(!this.userConversations.contains(reply)){
-			this.userConversations.add(reply);
-			if(reply.getConversation() != this){
-				reply.setConversation(this);
-			}
+		if(!this.userConversations.contains(reply.getKey())){
+			this.userConversations.add(reply.getKey());
 		}
 	}
 
-	public List<Reply> getReplies(){
+	public List<Key> getReplies() {
 		return this.replies;
 	}
 
 	public void addReply(Reply reply) {
-		if(!this.replies.contains(reply)){
-			this.replies.add(reply);
-			if(reply.getConversation() != this){
-				reply.setConversation(this);
-			}
+		if(!this.replies.contains(reply.getKey())){
+			this.replies.add(reply.getKey());
 		}
 	}
 }

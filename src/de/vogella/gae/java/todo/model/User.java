@@ -8,12 +8,6 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -26,25 +20,23 @@ public class User {
 	@Persistent (mappedBy = "user")
     private List<Key> recordings;
 	
+	@Persistent (mappedBy = "user")
+    private List<Key> groups;
+	
 	@Persistent(mappedBy = "user")
 	private List<Key> likes;
 	
-	/*
-	@OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
-	private List<Comment> comments;
+	@Persistent(mappedBy = "user")
+	private List<Key> comments;
 
-	@OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
-	private List<Recording> recordings;
+	@Persistent(mappedBy = "user")
+	private List<Key> views;
 
-	@OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
-	private List<View> views;
+	@Persistent(mappedBy = "user")
+	private List<Key> replies;
 
-	@OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
-	private List<Reply> replies;
-
-	@OneToMany(cascade = {CascadeType.ALL},mappedBy = "user")
-	private List<UserConversation> userConversations;
-	*/
+	@Persistent(mappedBy = "user")
+	private List<Key> userConversations;
 
 	@Persistent
 	private String phone_number;
@@ -64,66 +56,69 @@ public class User {
 		this.password = password;
 		this.create_date = date;
 		this.recordings = new ArrayList<Key>();
+		this.groups = new ArrayList<Key>();
 		this.likes = new ArrayList<Key>();
-		/*
-		this.comments = new ArrayList<Comment>();
-		this.views = new ArrayList<View>();
-		this.replies = new ArrayList<Reply>();
-		this.userConversations = new ArrayList<UserConversation>();
-		*/
+		this.comments = new ArrayList<Key>();
+		this.views = new ArrayList<Key>();
+		this.replies = new ArrayList<Key>();
+		this.userConversations = new ArrayList<Key>();
 	}
 
-	public Key getKey(){
+	public Key getKey() {
 		return key;
 	}
 
-	public String getPhoneNumber(){
+	public String getPhoneNumber() {
 		return phone_number;
 	}
 
-	public void setPhoneNumer(String number){
+	public void setPhoneNumer(String number) {
 		this.phone_number = number;
 	}
 
-
-	public String getPrimaryEmail_address(){
+	public String getPrimaryEmail_address() {
 		return primary_email_address;
 	}
 
-	public void setPrimaryEmailAddress(String email){
+	public void setPrimaryEmailAddress(String email) {
 		this.primary_email_address = email;
 	}
 
-	public String getPassword(){
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(String password){
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
-	public Date getCreateDate(){
+	public Date getCreateDate() {
 		return create_date;
 	}
 
-	public void setCreateDate(Date date){
+	public void setCreateDate(Date date) {
 		this.create_date = date;
 	}
 	
 	//methods for recordings
-	public List<Key> getRecordings(){
+	public List<Key> getRecordings() {
 		return recordings;
 	}
 
 	public void addRecording(Recording recording) {
-		System.out.println("In Add Recording");
-		System.out.println("Recording Key Before: " + recording.getKey());
 		if(!this.recordings.contains(recording.getKey())){
-			System.out.println("In Add Recording Contains Get Key");
 			this.recordings.add(recording.getKey());
-			for (Key test: recordings) {
-				System.out.println("Recording Key After: " + test);
-			}
+		}		
+	}
+	
+	//methods for groups
+	public List<Key> getGroups() {
+		return groups;
+	}
+
+	public void addGroup(Group group) {
+		if(!this.groups.contains(group.getKey())){
+			this.groups.add(group.getKey());
 		}		
 	}
 
@@ -138,75 +133,47 @@ public class User {
 		}
 	}
 
-	/*
 	//methods for comments
-	public List<Comment> getComments(){
+	public List<Key> getComments(){
 		return comments;
 	}
 
 	public void addComment(Comment comment) {
-		if(!this.comments.contains(comment)){
-			this.comments.add(comment);
-			if(comment.getUser() != this){
-				comment.setUser(this);
-			}
-		}
-	}
-
-	//methods for recordings
-	public List<Recording> getRecordings(){
-		return recordings;
-	}
-
-	public void addRecording(Recording recording) {
-		if(!this.recordings.contains(recording)){
-			this.recordings.add(recording);
-			if(recording.getUser() != this){
-				recording.setUser(this);
-			}
+		if(!this.comments.contains(comment.getKey())){
+			this.comments.add(comment.getKey());
 		}
 	}
 
 	//methods for view
-	public List<View> getViews(){
+	public List<Key> getViews(){
 		return views;
 	}
 
 	public void addView(View view) {
-		if(!this.views.contains(view.getID())){
-			this.views.add(view);
-			if(view.getUser() != this){
-				view.setUser(this);
-			}
+		if(!this.views.contains(view.getKey())){
+			this.views.add(view.getKey());
 		}
 	}
 
 	//methods for replies
-	public List<Reply> getReplies(){
+	public List<Key> getReplies(){
 		return replies;
 	}
 
 	public void addReply(Reply reply) {
-		if(!this.replies.contains(reply)) {
-			this.replies.add(reply);
-			if(reply.getUser() != this){
-				reply.setUser(this);
-			}
+		if(!this.replies.contains(reply.getKey())) {
+			this.replies.add(reply.getKey());
 		}
 	}
 
 	//methods for user conversations
-	public List<UserConversation> getUserConversations(){
+	public List<Key> getUserConversations(){
 		return userConversations;
 	}
 
 	public void addUserConversation(UserConversation userconvo) {
-		if(!this.userConversations.add(userconvo)){
-			this.userConversations.add(userconvo);
-			if(userconvo.getUser() != this){
-				userconvo.setUser(this);
-			}
+		if(!this.userConversations.add(userconvo.getKey())){
+			this.userConversations.add(userconvo.getKey());
 		}
 	}
-	*/
 }

@@ -8,13 +8,6 @@ import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -27,25 +20,23 @@ public class Recording{
 	@Persistent
 	private Key user;
 	
+	@Persistent
+	private Key group;
+	
 	@Persistent(mappedBy = "recording")
 	private List<Key> likes;
-	
-	/*
-	@OneToMany
-	private List<Like> likes;
 
-	@OneToMany
-	private List<View> views;
+	@Persistent(mappedBy = "recording")
+	private List<Key> views;
 
-	@OneToMany
-	private List<Comment> comments;
+	@Persistent(mappedBy = "recording")
+	private List<Key> comments;
 
-	@OneToMany
-	private List<Reply> replies;
+	@Persistent(mappedBy = "recording")
+	private List<Key> replies;
 
-	@OneToMany(cascade = {CascadeType.ALL})
-	private List<Tag> tags;
-	*/
+	@Persistent(mappedBy = "recording")
+	private List<Key> tags;
 
 	@Persistent	
 	private Date createDate;
@@ -62,74 +53,82 @@ public class Recording{
 	@Persistent
 	private boolean recording_public;
 
-	public Recording(Date date,String recordingFile,int seconds, boolean active, boolean available){
+	public Recording(Date date,String recordingFile,int seconds, boolean active, boolean available) {
 		this.createDate = date;
 		this.recordingFile = recordingFile;
 		this.recording_length = seconds;
 		this.recording_active = active;
 		this.recording_public = available;
 		this.likes = new ArrayList<Key>();
-		/*
-		this.views = new ArrayList<View>();
-		this.comments= new ArrayList<Comment>();
-		this.replies = new ArrayList<Reply>();
-		this.tags = new ArrayList<Tag>();
-		*/
+		this.views = new ArrayList<Key>();
+		this.comments= new ArrayList<Key>();
+		this.replies = new ArrayList<Key>();
+		this.tags = new ArrayList<Key>();
 	}
 
-	public Key getKey(){
+	public Key getKey() {
 		return key;
 	}
 
-	public void setCreateDate(Date date){
+	public void setCreateDate(Date date) {
 		this.createDate= date;
 	}
-	public Date getCreateDate(){
+	public Date getCreateDate() {
 		return this.createDate;
 	}
 
-	public void setRecordingFile(String file){
+	public void setRecordingFile(String file) {
 		this.recordingFile = file;
 	}
 
-	public String getRecordingFile(){
+	public String getRecordingFile() {
 		return this.recordingFile;
 	}
 
-	public void setRecordingLenth(int length){
+	public void setRecordingLenth(int length) {
 		this.recording_length = length;
 	}
 
-	public int getRecordingLength(){
+	public int getRecordingLength() {
 		return this.recording_length;
 	}
 	
-	public void setRecordingActive(boolean active){
+	public void setRecordingActive(boolean active) {
 		this.recording_active = active;
 	}
 
-	public boolean getRecordingActive(){
+	public boolean getRecordingActive() {
 		return this.recording_active;
 	}
 
-	public void setRecordingPublic(boolean available){
+	public void setRecordingPublic(boolean available) {
 		this.recording_public = available;
 	}
 
-	public boolean getRecordingPublic(){
+	public boolean getRecordingPublic() {
 		return this.recording_public;
 	}
 	
-	public Key getUser(){
+	//methods for users
+	public Key getUser() {
 		return this.user;
 	}
 	
-	public void setUser(User user){
+	public void setUser(User user) {
 		this.user = user.getKey();
 	}
 	
+	//methods for groups
+	public Key getGroup() {
+		return this.group;
+	}
+		
+	public void setGroup(Group group) {
+		this.group = group.getKey();
+	}
+	
 	//methods for likes
-	public List<Key> getLikes(){
+	public List<Key> getLikes() {
 		return likes;
 	}
 
@@ -139,72 +138,47 @@ public class Recording{
 		}
 	}
 	
-	/*
 	//methods for comments
-	public List<Comment> getComments(){
+	public List<Key> getComments() {
 		return comments;
 	}
 
 	public void addComment(Comment comment) {
-		if(!this.comments.contains(comment)){
-			this.comments.add(comment);
-			if(comment.getRecording() != this){
-				comment.setRecording(this);
-			}
+		if(!this.comments.contains(comment.getKey())){
+			this.comments.add(comment.getKey());
 		}	
 	}
 
 	//methods for views
-	public List<View> getViews(){
+	public List<Key> getViews() {
 		return views;
 	}
 
 	public void addView(View view) {
-		if(!this.views.contains(view)){
-			this.views.add(view);
-			if(view.getRecording() != this){
-				view.setRecording(this);
-			}
+		if(!this.views.contains(view.getKey())){
+			this.views.add(view.getKey());
 		}
 	}
 
 	//methods for tags
-	public List<View> getTags(){
+	public List<Key> getTags() {
 		return tags;
 	}
 
 	public void addTag(Tag tag) {
-		if(!this.tags.contains(tag)){	
-		this.tags.add(tag);
-			if(tag.getRecording() != this){
-				tag.setRecording(this);
-			}
+		if(!this.tags.contains(tag.getKey())){	
+		this.tags.add(tag.getKey());
 		}
 	}
 
 	//methods for replies
-	public List<Reply> getReplies(){
+	public List<Key> getReplies() {
 		return replies;
 	}
 
 	public void addReply(Reply reply) {
-		if(!this.replies.contains(reply)){
-			this.replies.add(reply);
-			if(reply.getRecording() != this){
-				reply.setRecording(this);
-			}
+		if(!this.replies.contains(reply.getKey())){
+			this.replies.add(reply.getKey());
 		}
 	}
-
-	public User getUser(){
-		return this.user;
-	}
-	
-	public void setUser(User user){
-		this.user = user;
-		if(!user.getRecordings().contains(this)){
-			this.user.getRecordings().add(this);
-		}
-	}
-	*/
 }

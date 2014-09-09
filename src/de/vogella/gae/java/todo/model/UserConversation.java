@@ -1,53 +1,44 @@
 package de.vogella.gae.java.todo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 
-@Entity
+@PersistenceCapable
 public class UserConversation {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Key id;
+	@PrimaryKey
+    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+    private Key key;
 
-	@ManyToOne(optional = false)
-	private User user;
+	@Persistent
+	private Key user;
 
-	@ManyToOne(optional = false)
-	private Conversation conversation;
+	@Persistent
+	private Key conversation;
 
-	public UserConversation(User user, Conversation conversation){
-		this.user = user;
-		this.conversation = conversation;
+	public UserConversation() {
 	}
 
-	public Key getID(){
-		return this.id;
+	public Key getKey() {
+		return this.key;
 	}
 
-	public User getUser(){
+	public Key getUser() {
 		return this.user;
 	}
 
-	public void setUser(User user){
-		this.user = user;
-		if(!user.getUserConversations().contains(this)){
-			this.user.getUserConversations().add(this);
-		}
+	public void setUser(User user) {
+		this.user = user.getKey();
 	}
 
-	public Conversation getConversation(){
+	public Key getConversation() {
 		return this.conversation;
 	}
 
-	public void setConversation(Conversation convo){
-		this.conversation = convo;
-		if(!conversation.getUserConversations().contains(this)){
-			this.conversation.getUserConversations().add(this);
-		}
+	public void setConversation(Conversation convo) {
+		this.conversation = convo.getKey();
 	}
 }

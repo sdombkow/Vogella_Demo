@@ -8,36 +8,24 @@ import javax.jdo.annotations.PrimaryKey;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Comment {
+public class UserGroup {
 	@PrimaryKey
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
-
-	@Persistent
-	private String commentText;
-
+	
 	@Persistent
 	private Key user;
 
 	@Persistent
-	private Key recording;
+	private Key group;
 
-	public Comment(String text) {
-		this.commentText= text;
-	}
-
-	public String getCommentText() {
-		return this.commentText;
-	}
-
-	public void setCommentText(String text) {
-		this.commentText= text;
+	public UserGroup() {
 	}
 
 	public Key getKey() {
 		return key;
 	}
-
+	
 	public Key getUser() {
 		return this.user;
 	}
@@ -46,11 +34,11 @@ public class Comment {
 		this.user = user.getKey();
 	}
 
-	public Key getRecording() {
-		return this.recording;
+	public Key getGroup() {
+		return this.group;
 	}
 
-	public void setRecording(Recording recording) {
-		this.recording = recording.getKey();
+	public void setGroup(Group group) {
+		this.group = group.getKey();
 	}
 }
