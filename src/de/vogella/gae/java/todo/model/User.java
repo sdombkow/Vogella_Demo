@@ -17,25 +17,25 @@ public class User {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
 	
-	@Persistent (mappedBy = "user")
-    private List<Key> recordings;
-	
-	@Persistent (mappedBy = "user")
+	@Persistent
+    private List<Key> userRecordings;
+
+	@Persistent
     private List<Key> groups;
 	
-	@Persistent(mappedBy = "user")
-	private List<Key> likes;
+	@Persistent
+	private List<Key> userLikes;
 	
-	@Persistent(mappedBy = "user")
+	@Persistent
 	private List<Key> comments;
 
-	@Persistent(mappedBy = "user")
+	@Persistent
 	private List<Key> views;
 
-	@Persistent(mappedBy = "user")
+	@Persistent
 	private List<Key> replies;
 
-	@Persistent(mappedBy = "user")
+	@Persistent
 	private List<Key> userConversations;
 
 	@Persistent
@@ -55,9 +55,9 @@ public class User {
 		this.primary_email_address= primary_email_address;
 		this.password = password;
 		this.create_date = date;
-		this.recordings = new ArrayList<Key>();
+		this.userRecordings = new ArrayList<Key>();
 		this.groups = new ArrayList<Key>();
-		this.likes = new ArrayList<Key>();
+		this.userLikes = new ArrayList<Key>();
 		this.comments = new ArrayList<Key>();
 		this.views = new ArrayList<Key>();
 		this.replies = new ArrayList<Key>();
@@ -102,12 +102,12 @@ public class User {
 	
 	//methods for recordings
 	public List<Key> getRecordings() {
-		return recordings;
+		return userRecordings;
 	}
 
 	public void addRecording(Recording recording) {
-		if(!this.recordings.contains(recording.getKey())){
-			this.recordings.add(recording.getKey());
+		if(!this.userRecordings.contains(recording.getKey())){
+			this.userRecordings.add(recording.getKey());
 		}		
 	}
 	
@@ -124,12 +124,12 @@ public class User {
 
 	//methods for likes
 	public List<Key> getLikes(){
-		return likes;
+		return userLikes;
 	}
 
 	public void addLike(Like like) {
-		if(!this.likes.contains(like.getKey())){
-			this.likes.add(like.getKey());
+		if(!this.userLikes.contains(like.getKey())){
+			this.userLikes.add(like.getKey());
 		}
 	}
 

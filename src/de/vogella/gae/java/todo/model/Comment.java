@@ -14,24 +14,24 @@ public class Comment {
     private Key key;
 
 	@Persistent
-	private String commentText;
+	private String comment_text;
 
 	@Persistent
-	private Key user;
+	private Key comment_user;
 
 	@Persistent
-	private Key recording;
+	private Key comment_recording;
 
 	public Comment(String text) {
-		this.commentText= text;
+		this.comment_text= text;
 	}
 
 	public String getCommentText() {
-		return this.commentText;
+		return this.comment_text;
 	}
 
 	public void setCommentText(String text) {
-		this.commentText= text;
+		this.comment_text= text;
 	}
 
 	public Key getKey() {
@@ -39,18 +39,18 @@ public class Comment {
 	}
 
 	public Key getUser() {
-		return this.user;
+		return this.comment_user;
 	}
 
 	public void setUser(User user) {
-		this.user = user.getKey();
+		this.comment_user = user.getKey();
 	}
 
 	public Key getRecording() {
-		return this.recording;
+		return this.comment_recording;
 	}
 
 	public void setRecording(Recording recording) {
-		this.recording = recording.getKey();
+		this.comment_recording = recording.getKey();
 	}
 }

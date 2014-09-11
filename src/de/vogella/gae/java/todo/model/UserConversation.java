@@ -14,10 +14,10 @@ public class UserConversation {
     private Key key;
 
 	@Persistent
-	private Key user;
+	private Key user_conversation_user;
 
 	@Persistent
-	private Key conversation;
+	private Key user_conversation_conversation;
 
 	public UserConversation() {
 	}
@@ -27,18 +27,18 @@ public class UserConversation {
 	}
 
 	public Key getUser() {
-		return this.user;
+		return this.user_conversation_user;
 	}
 
 	public void setUser(User user) {
-		this.user = user.getKey();
+		this.user_conversation_user = user.getKey();
 	}
 
 	public Key getConversation() {
-		return this.conversation;
+		return this.user_conversation_conversation;
 	}
 
 	public void setConversation(Conversation convo) {
-		this.conversation = convo.getKey();
+		this.user_conversation_conversation = convo.getKey();
 	}
 }

@@ -18,17 +18,17 @@ public class Conversation {
     private Key key;
 
 	@Persistent
-	private String generatedName;
+	private String generated_name;
 
-	@Persistent(mappedBy = "conversation")
-	private List<Key> userConversations;
+	@Persistent
+	private List<Key> user_conversations;
 
-	@Persistent(mappedBy = "conversation")
+	@Persistent
 	private List<Key> replies;
 
 	public Conversation() {
 		this.generateRandomName();
-		this.userConversations = new ArrayList<Key> ();
+		this.user_conversations = new ArrayList<Key> ();
 		this.replies = new ArrayList<Key> ();
 	}
 	
@@ -39,25 +39,25 @@ public class Conversation {
 	public void generateRandomName() {
 		String[] array = {"Hello", "world", "DIC", "dream", "Cat", "Tom", "Heart", "Cool", "Awesome", "Dreamer"};
 		Random ran = new Random();
-		generatedName = array[ran.nextInt(array.length)] + " " + array[ran.nextInt(array.length)];
+		generated_name = array[ran.nextInt(array.length)] + " " + array[ran.nextInt(array.length)];
 	}
 
 	public String getGeneratedName() {
-		return this.generatedName;
+		return this.generated_name;
 	}
 
 	public void setGeneratedName(String name) {
-		this.generatedName = name;
+		this.generated_name = name;
 	}
 
 	//methods for user conversations
 	public List<Key> getUserConversations() {
-		return this.userConversations;
+		return this.user_conversations;
 	}
 
 	public void addUserConversation(UserConversation reply) {
-		if(!this.userConversations.contains(reply.getKey())){
-			this.userConversations.add(reply.getKey());
+		if(!this.user_conversations.contains(reply.getKey())){
+			this.user_conversations.add(reply.getKey());
 		}
 	}
 

@@ -13,43 +13,44 @@ public class Like {
     @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
     private Key key;
 	
+	@Persistent
 	private String comment;
 
 	@Persistent
-	private Key user;
+	private Key liked_user;
 	
 	@Persistent
-	private Key recording;
+	private Key liked_recording;
 
 	public Like(String text) {
 		this.comment = text;
 	}
 
-	public Key getKey(){
+	public Key getKey() {
 		return key;
 	}
 
-	public String getComment(){
+	public String getComment() {
 		return comment;
 	}
 
-	public void setComment(String text){
+	public void setComment(String text) {
 		this.comment = text;
 	}
 	
-	public Key getUser(){
-		return this.user;
+	public Key getUser() {
+		return this.liked_user;
 	}
 	
-	public void setUser(User user){
-		this.user = user.getKey();
+	public void setUser(User user) {
+		this.liked_user = user.getKey();
 	}
 
-	public Key getRecording(){
-		return this.recording;
+	public Key getRecording() {
+		return this.liked_recording;
 	}
 
-	public void setRecording(Recording recording){
-		this.recording = recording.getKey();
+	public void setRecording(Recording recording) {
+		this.liked_recording = recording.getKey();
 	}
 }

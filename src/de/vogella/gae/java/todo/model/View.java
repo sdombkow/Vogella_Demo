@@ -14,10 +14,10 @@ public class View {
     private Key key;
 	
 	@Persistent
-	private Key user;
+	private Key view_user;
 
 	@Persistent
-	private Key recording;
+	private Key view_recording;
 	
 	public View() {
 	}
@@ -27,18 +27,18 @@ public class View {
 	}
 
 	public Key getUser() {
-		return this.user;
+		return this.view_user;
 	}
 	
 	public void setUser(User user) {
-		this.user = user.getKey();
+		this.view_user = user.getKey();
 	}
 
 	public Key getRecording() {
-		return this.recording;
+		return this.view_recording;
 	}
 
 	public void setRecording(Recording recording) {
-		this.recording = recording.getKey();
+		this.view_recording = recording.getKey();
 	}
 }

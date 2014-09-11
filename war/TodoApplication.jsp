@@ -28,6 +28,7 @@ String url = userService.createLoginURL(request.getRequestURI());
 String urlLinktext = "Login";
 List<Todo> todos = new ArrayList<Todo>();
 boolean todosquestion = true;
+dao.getTodos(url);
             
 if (user != null){
     url = userService.createLogoutURL(request.getRequestURI());

@@ -22,16 +22,16 @@ public class Group {
 	@Persistent
 	private String description;
 
-	@Persistent(mappedBy = "group")
-	private List<Key> userGroups;
+	@Persistent
+	private List<Key> user_groups;
 
-	@Persistent(mappedBy = "group")
+	@Persistent
 	private List<Key> recordings;
 
 	public Group(String name, String description) {
 		this.name= name;
 		this.description= description;
-		this.userGroups = new ArrayList<Key>();
+		this.user_groups = new ArrayList<Key>();
 		this.recordings = new ArrayList<Key>();
 	}
 	
@@ -57,12 +57,12 @@ public class Group {
 
 	//methods for likes
 	public List<Key> getUserGroup() {
-		return this.userGroups;
+		return this.user_groups;
 	}
 
 	public void addUserGroup(UserGroup userGroup) {
-		if(!this.userGroups.contains(userGroup.getKey())){
-			this.userGroups.add(userGroup.getKey());
+		if(!this.user_groups.contains(userGroup.getKey())){
+			this.user_groups.add(userGroup.getKey());
 		}
 	}
 

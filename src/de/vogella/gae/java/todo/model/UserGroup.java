@@ -14,10 +14,10 @@ public class UserGroup {
     private Key key;
 	
 	@Persistent
-	private Key user;
+	private Key user_group_user;
 
 	@Persistent
-	private Key group;
+	private Key user_group_group;
 
 	public UserGroup() {
 	}
@@ -27,18 +27,18 @@ public class UserGroup {
 	}
 	
 	public Key getUser() {
-		return this.user;
+		return this.user_group_user;
 	}
 
 	public void setUser(User user) {
-		this.user = user.getKey();
+		this.user_group_user = user.getKey();
 	}
 
 	public Key getGroup() {
-		return this.group;
+		return this.user_group_group;
 	}
 
 	public void setGroup(Group group) {
-		this.group = group.getKey();
+		this.user_group_group = group.getKey();
 	}
 }

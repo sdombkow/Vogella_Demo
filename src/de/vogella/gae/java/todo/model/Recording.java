@@ -18,24 +18,24 @@ public class Recording{
     private Key key;
 
 	@Persistent
-	private Key user;
+	private Key recording_user;
 	
 	@Persistent
-	private Key group;
+	private Key recording_group;
 	
-	@Persistent(mappedBy = "recording")
-	private List<Key> likes;
+	@Persistent
+	private List<Key> recordingLikes;
 
-	@Persistent(mappedBy = "recording")
+	@Persistent
 	private List<Key> views;
 
-	@Persistent(mappedBy = "recording")
+	@Persistent
 	private List<Key> comments;
 
-	@Persistent(mappedBy = "recording")
+	@Persistent
 	private List<Key> replies;
 
-	@Persistent(mappedBy = "recording")
+	@Persistent
 	private List<Key> tags;
 
 	@Persistent	
@@ -59,7 +59,7 @@ public class Recording{
 		this.recording_length = seconds;
 		this.recording_active = active;
 		this.recording_public = available;
-		this.likes = new ArrayList<Key>();
+		this.recordingLikes = new ArrayList<Key>();
 		this.views = new ArrayList<Key>();
 		this.comments= new ArrayList<Key>();
 		this.replies = new ArrayList<Key>();
@@ -111,30 +111,30 @@ public class Recording{
 	
 	//methods for users
 	public Key getUser() {
-		return this.user;
+		return this.recording_user;
 	}
 	
 	public void setUser(User user) {
-		this.user = user.getKey();
+		this.recording_user = user.getKey();
 	}
 	
 	//methods for groups
 	public Key getGroup() {
-		return this.group;
+		return this.recording_group;
 	}
 		
 	public void setGroup(Group group) {
-		this.group = group.getKey();
+		this.recording_group = group.getKey();
 	}
 	
 	//methods for likes
 	public List<Key> getLikes() {
-		return likes;
+		return recordingLikes;
 	}
 
 	public void addLike(Like like) {
-		if(!this.likes.contains(like.getKey())){
-			this.likes.add(like.getKey());
+		if(!this.recordingLikes.contains(like.getKey())){
+			this.recordingLikes.add(like.getKey());
 		}
 	}
 	

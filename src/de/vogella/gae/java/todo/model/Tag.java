@@ -17,7 +17,7 @@ public class Tag {
 	private String tagText;
 
 	@Persistent
-	private Key recording;
+	private Key tagged_recording;
 
 	
 	public Tag(String text) {
@@ -37,10 +37,10 @@ public class Tag {
 	}
 
 	public Key getRecording() {
-		return this.recording;
+		return this.tagged_recording;
 	}
 
 	public void setRecording(Recording recording) {
-		this.recording = recording.getKey();
+		this.tagged_recording = recording.getKey();
 	}
 }
