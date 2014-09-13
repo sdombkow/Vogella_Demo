@@ -18,25 +18,25 @@ public class User {
     private Key key;
 	
 	@Persistent
-    private List<Key> userRecordings;
+    private List<Key> user_recordings;
 
 	@Persistent
-    private List<Key> groups;
+    private List<Key> user_groups;
 	
 	@Persistent
-	private List<Key> userLikes;
+	private List<Key> user_likes;
 	
 	@Persistent
-	private List<Key> comments;
+	private List<Key> user_comments;
 
 	@Persistent
-	private List<Key> views;
+	private List<Key> user_views;
 
 	@Persistent
-	private List<Key> replies;
+	private List<Key> user_replies;
 
 	@Persistent
-	private List<Key> userConversations;
+	private List<Key> user_conversations;
 
 	@Persistent
 	private String phone_number;
@@ -48,20 +48,24 @@ public class User {
 	private String password;
 	
 	@Persistent
+	private String token;
+	
+	@Persistent
 	private Date create_date;
 
-	public User(String phone_number, String primary_email_address, String password, Date date) {
+	public User(String phone_number, String primary_email_address, String password, Date date, String token) {
 		this.phone_number= phone_number;
 		this.primary_email_address= primary_email_address;
 		this.password = password;
 		this.create_date = date;
-		this.userRecordings = new ArrayList<Key>();
-		this.groups = new ArrayList<Key>();
-		this.userLikes = new ArrayList<Key>();
-		this.comments = new ArrayList<Key>();
-		this.views = new ArrayList<Key>();
-		this.replies = new ArrayList<Key>();
-		this.userConversations = new ArrayList<Key>();
+		this.token = token;
+		this.user_recordings = new ArrayList<Key>();
+		this.user_groups = new ArrayList<Key>();
+		this.user_likes = new ArrayList<Key>();
+		this.user_comments = new ArrayList<Key>();
+		this.user_views = new ArrayList<Key>();
+		this.user_replies = new ArrayList<Key>();
+		this.user_conversations = new ArrayList<Key>();
 	}
 
 	public Key getKey() {
@@ -83,6 +87,14 @@ public class User {
 	public void setPrimaryEmailAddress(String email) {
 		this.primary_email_address = email;
 	}
+	
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 
 	public String getPassword() {
 		return password;
@@ -102,78 +114,78 @@ public class User {
 	
 	//methods for recordings
 	public List<Key> getRecordings() {
-		return userRecordings;
+		return user_recordings;
 	}
 
 	public void addRecording(Recording recording) {
-		if(!this.userRecordings.contains(recording.getKey())){
-			this.userRecordings.add(recording.getKey());
+		if(!this.user_recordings.contains(recording.getKey())){
+			this.user_recordings.add(recording.getKey());
 		}		
 	}
 	
 	//methods for groups
 	public List<Key> getGroups() {
-		return groups;
+		return user_groups;
 	}
 
 	public void addGroup(Group group) {
-		if(!this.groups.contains(group.getKey())){
-			this.groups.add(group.getKey());
+		if(!this.user_groups.contains(group.getKey())){
+			this.user_groups.add(group.getKey());
 		}		
 	}
 
 	//methods for likes
 	public List<Key> getLikes(){
-		return userLikes;
+		return user_likes;
 	}
 
 	public void addLike(Like like) {
-		if(!this.userLikes.contains(like.getKey())){
-			this.userLikes.add(like.getKey());
+		if(!this.user_likes.contains(like.getKey())){
+			this.user_likes.add(like.getKey());
 		}
 	}
 
 	//methods for comments
 	public List<Key> getComments(){
-		return comments;
+		return user_comments;
 	}
 
 	public void addComment(Comment comment) {
-		if(!this.comments.contains(comment.getKey())){
-			this.comments.add(comment.getKey());
+		if(!this.user_comments.contains(comment.getKey())){
+			this.user_comments.add(comment.getKey());
 		}
 	}
 
 	//methods for view
 	public List<Key> getViews(){
-		return views;
+		return user_views;
 	}
 
 	public void addView(View view) {
-		if(!this.views.contains(view.getKey())){
-			this.views.add(view.getKey());
+		if(!this.user_views.contains(view.getKey())){
+			this.user_views.add(view.getKey());
 		}
 	}
 
 	//methods for replies
 	public List<Key> getReplies(){
-		return replies;
+		return user_replies;
 	}
 
 	public void addReply(Reply reply) {
-		if(!this.replies.contains(reply.getKey())) {
-			this.replies.add(reply.getKey());
+		if(!this.user_replies.contains(reply.getKey())) {
+			this.user_replies.add(reply.getKey());
 		}
 	}
 
 	//methods for user conversations
-	public List<Key> getUserConversations(){
-		return userConversations;
+	public List<Key> getConversations(){
+		return user_conversations;
 	}
 
-	public void addUserConversation(UserConversation userconvo) {
-		if(!this.userConversations.add(userconvo.getKey())){
-			this.userConversations.add(userconvo.getKey());
+	public void addConversation(Conversation userconvo) {
+		if(!this.user_conversations.add(userconvo.getKey())){
+			this.user_conversations.add(userconvo.getKey());
 		}
 	}
 }

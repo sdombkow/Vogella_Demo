@@ -24,25 +24,25 @@ public class Recording{
 	private Key recording_group;
 	
 	@Persistent
-	private List<Key> recordingLikes;
+	private List<Key> recording_likes;
 
 	@Persistent
-	private List<Key> views;
+	private List<Key> recording_views;
 
 	@Persistent
-	private List<Key> comments;
+	private List<Key> recording_comments;
 
 	@Persistent
-	private List<Key> replies;
+	private List<Key> recording_replies;
 
 	@Persistent
-	private List<Key> tags;
+	private List<Key> recording_tags;
 
 	@Persistent	
 	private Date createDate;
 	
 	@Persistent
-	private String recordingFile;
+	private String recording_file;
 	
 	@Persistent
 	private int recording_length;
@@ -55,15 +55,15 @@ public class Recording{
 
 	public Recording(Date date,String recordingFile,int seconds, boolean active, boolean available) {
 		this.createDate = date;
-		this.recordingFile = recordingFile;
+		this.recording_file = recordingFile;
 		this.recording_length = seconds;
 		this.recording_active = active;
 		this.recording_public = available;
-		this.recordingLikes = new ArrayList<Key>();
-		this.views = new ArrayList<Key>();
-		this.comments= new ArrayList<Key>();
-		this.replies = new ArrayList<Key>();
-		this.tags = new ArrayList<Key>();
+		this.recording_likes = new ArrayList<Key>();
+		this.recording_views = new ArrayList<Key>();
+		this.recording_comments= new ArrayList<Key>();
+		this.recording_replies = new ArrayList<Key>();
+		this.recording_tags = new ArrayList<Key>();
 	}
 
 	public Key getKey() {
@@ -78,11 +78,11 @@ public class Recording{
 	}
 
 	public void setRecordingFile(String file) {
-		this.recordingFile = file;
+		this.recording_file = file;
 	}
 
 	public String getRecordingFile() {
-		return this.recordingFile;
+		return this.recording_file;
 	}
 
 	public void setRecordingLenth(int length) {
@@ -129,56 +129,56 @@ public class Recording{
 	
 	//methods for likes
 	public List<Key> getLikes() {
-		return recordingLikes;
+		return recording_likes;
 	}
 
 	public void addLike(Like like) {
-		if(!this.recordingLikes.contains(like.getKey())){
-			this.recordingLikes.add(like.getKey());
+		if(!this.recording_likes.contains(like.getKey())){
+			this.recording_likes.add(like.getKey());
 		}
 	}
 	
 	//methods for comments
 	public List<Key> getComments() {
-		return comments;
+		return recording_comments;
 	}
 
 	public void addComment(Comment comment) {
-		if(!this.comments.contains(comment.getKey())){
-			this.comments.add(comment.getKey());
+		if(!this.recording_comments.contains(comment.getKey())){
+			this.recording_comments.add(comment.getKey());
 		}	
 	}
 
 	//methods for views
 	public List<Key> getViews() {
-		return views;
+		return recording_views;
 	}
 
 	public void addView(View view) {
-		if(!this.views.contains(view.getKey())){
-			this.views.add(view.getKey());
+		if(!this.recording_views.contains(view.getKey())){
+			this.recording_views.add(view.getKey());
 		}
 	}
 
 	//methods for tags
 	public List<Key> getTags() {
-		return tags;
+		return recording_tags;
 	}
 
 	public void addTag(Tag tag) {
-		if(!this.tags.contains(tag.getKey())){	
-		this.tags.add(tag.getKey());
+		if(!this.recording_tags.contains(tag.getKey())){	
+		this.recording_tags.add(tag.getKey());
 		}
 	}
 
 	//methods for replies
 	public List<Key> getReplies() {
-		return replies;
+		return recording_replies;
 	}
 
 	public void addReply(Reply reply) {
-		if(!this.replies.contains(reply.getKey())){
-			this.replies.add(reply.getKey());
+		if(!this.recording_replies.contains(reply.getKey())){
+			this.recording_replies.add(reply.getKey());
 		}
 	}
 }

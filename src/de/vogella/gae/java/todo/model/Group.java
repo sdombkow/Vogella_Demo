@@ -23,16 +23,16 @@ public class Group {
 	private String description;
 
 	@Persistent
-	private List<Key> user_groups;
+	private List<Key> group_users;
 
 	@Persistent
-	private List<Key> recordings;
+	private List<Key> group_recordings;
 
 	public Group(String name, String description) {
 		this.name= name;
 		this.description= description;
-		this.user_groups = new ArrayList<Key>();
-		this.recordings = new ArrayList<Key>();
+		this.group_users = new ArrayList<Key>();
+		this.group_recordings = new ArrayList<Key>();
 	}
 	
 	public Key getKey() {
@@ -55,24 +55,23 @@ public class Group {
 		this.name = name;
 	}
 
-	//methods for likes
-	public List<Key> getUserGroup() {
-		return this.user_groups;
+	public List<Key> getUsers() {
+		return this.group_users;
 	}
 
-	public void addUserGroup(UserGroup userGroup) {
-		if(!this.user_groups.contains(userGroup.getKey())){
-			this.user_groups.add(userGroup.getKey());
+	public void addUser(User user) {
+		if(!this.group_users.contains(user.getKey())){
+			this.group_users.add(user.getKey());
 		}
 	}
 
 	public List<Key> getRecording() {
-		return this.recordings;
+		return this.group_recordings;
 	}
 
 	public void addRecording(Recording recording) {
-		if(!this.recordings.contains(recording.getKey())){
-			this.recordings.add(recording.getKey());
+		if(!this.group_recordings.contains(recording.getKey())){
+			this.group_recordings.add(recording.getKey());
 		}
 	}
 }

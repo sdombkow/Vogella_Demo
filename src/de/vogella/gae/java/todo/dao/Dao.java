@@ -15,8 +15,6 @@ import de.vogella.gae.java.todo.model.Tag;
 import de.vogella.gae.java.todo.model.Todo;
 import de.vogella.gae.java.todo.model.User;
 import de.vogella.gae.java.todo.model.Like;
-import de.vogella.gae.java.todo.model.UserConversation;
-import de.vogella.gae.java.todo.model.UserGroup;
 import de.vogella.gae.java.todo.model.View;
 
 import javax.jdo.JDOHelper;
@@ -54,8 +52,8 @@ public enum Dao {
 	  //List<Todo> todos = q.getResultList();
 	  PersistenceManager pm = PMF.get().getPersistenceManager();
 	  
-	  User user1 = new User("812324213","test1@example.com","password",Calendar.getInstance().getTime());
-	  User user2 = new User("234912371","test2@example.com","password",Calendar.getInstance().getTime());
+	  User user1 = new User("812324213","test1@example.com","password",Calendar.getInstance().getTime(),"token");
+	  User user2 = new User("234912371","test2@example.com","password",Calendar.getInstance().getTime(),"token");
 	  Recording recording1 = new Recording(Calendar.getInstance().getTime(),"test",45,true,true);
 	  Recording recording2 = new Recording(Calendar.getInstance().getTime(),"test #2",60,true,true);
 	  Like like1 = new Like("test1");
@@ -64,8 +62,6 @@ public enum Dao {
 	  Comment comment2 = new Comment("comment2");
 	  Conversation conversation1 = new Conversation();
 	  Conversation conversation2 = new Conversation();
-	  UserConversation userconversation1 = new UserConversation();
-	  UserConversation userconversation2 = new UserConversation();
 	  
 	  pm.makePersistent(user1);
       pm.makePersistent(user2);
@@ -75,8 +71,6 @@ public enum Dao {
       pm.makePersistent(like2);
       pm.makePersistent(comment1);
       pm.makePersistent(comment2);
-      pm.makePersistent(userconversation1);
-      pm.makePersistent(userconversation2);
 	  
 	  user1.addRecording(recording1);
 	  user2.addRecording(recording2);
@@ -98,18 +92,14 @@ public enum Dao {
 	  comment2.setUser(user1);
 	  comment1.setRecording(recording1);
 	  comment2.setRecording(recording2);
-	  user1.addUserConversation(userconversation1);
-	  user1.addUserConversation(userconversation2);
-	  user2.addUserConversation(userconversation1);
-	  user2.addUserConversation(userconversation2);
-	  userconversation1.setUser(user1);
-	  userconversation1.setUser(user2);
-	  userconversation2.setUser(user1);
-	  userconversation2.setUser(user2);
-	  conversation1.addUserConversation(userconversation1);
-	  conversation1.addUserConversation(userconversation2);
-	  conversation2.addUserConversation(userconversation1);
-	  conversation2.addUserConversation(userconversation2);
+	  user1.addConversation(conversation1);
+	  user1.addConversation(conversation2);
+	  user2.addConversation(conversation1);
+	  user2.addConversation(conversation2);
+	  conversation1.addUser(user1);
+	  conversation1.addUser(user2);
+	  conversation2.addUser(user1);
+	  conversation2.addUser(user2);
 	  
 	  try {
           pm.makePersistent(user1);
@@ -120,8 +110,6 @@ public enum Dao {
           pm.makePersistent(like2);
           pm.makePersistent(comment1);
           pm.makePersistent(comment2);
-          pm.makePersistent(userconversation1);
-          pm.makePersistent(userconversation2);
           
           for (Key recording : user1.getRecordings()) {
   		  	System.out.println("User 1 Recording Length: " + pm.getObjectById(Recording.class, recording).getRecordingLength());
@@ -218,30 +206,26 @@ public enum Dao {
 	  
 	  Group group1 = new Group("test group1","test group1");
 	  Group group2 = new Group("test group2","test group2");
-	  UserGroup usergroup1 = new UserGroup();
-	  UserGroup usergroup2 = new UserGroup();
 	  Tag tag1 = new Tag("test tag1");
 	  Tag tag2 = new Tag("test tag2");
 	  
 	  pm4.makePersistent(group1);
 	  pm4.makePersistent(group2);
-	  pm4.makePersistent(usergroup1);
-	  pm4.makePersistent(usergroup2);
 	  pm4.makePersistent(tag1);
 	  pm4.makePersistent(tag2);
 	  
-	  group1.addUserGroup(usergroup1);
-	  group1.addUserGroup(usergroup2);
-	  usergroup1.setGroup(group1);
-	  usergroup2.setGroup(group2);
+	  group1.addUser(user1);
+	  group1.addUser(user2);
+	  user1.addGroup(group1);
+	  user2.addGroup(group2);
 	  group1.addRecording(recording1);
 	  group1.addRecording(recording2);
 	  recording1.setGroup(group1);
 	  recording2.setGroup(group2);
-	  usergroup1.setUser(user1);
-	  usergroup2.setUser(user2);
-	  user1.addGroup(group1);
-	  user2.addGroup(group2);
+	  group1.addUser(user2);
+	  group2.addUser(user1);
+	  user1.addGroup(group2);
+	  user2.addGroup(group1);
 	  tag1.setRecording(recording2);
 	  tag2.setRecording(recording2);
 	  recording2.addTag(tag1);
@@ -250,8 +234,6 @@ public enum Dao {
 	  try {
 		  pm4.makePersistent(group1);
 		  pm4.makePersistent(group2);
-		  pm4.makePersistent(usergroup1);
-		  pm4.makePersistent(usergroup2);
 		  pm4.makePersistent(tag1);
 		  pm4.makePersistent(tag2);
 		  pm4.makePersistent(recording1);

@@ -17,7 +17,7 @@ public class Like {
 	private String comment;
 
 	@Persistent
-	private Key liked_user;
+	private Key like_user;
 	
 	@Persistent
 	private Key liked_recording;
@@ -39,11 +39,11 @@ public class Like {
 	}
 	
 	public Key getUser() {
-		return this.liked_user;
+		return this.like_user;
 	}
 	
 	public void setUser(User user) {
-		this.liked_user = user.getKey();
+		this.like_user = user.getKey();
 	}
 
 	public Key getRecording() {
