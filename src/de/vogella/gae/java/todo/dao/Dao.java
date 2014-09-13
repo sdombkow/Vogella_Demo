@@ -71,6 +71,8 @@ public enum Dao {
       pm.makePersistent(like2);
       pm.makePersistent(comment1);
       pm.makePersistent(comment2);
+      pm.makePersistent(conversation1);
+      pm.makePersistent(conversation2);
 	  
 	  user1.addRecording(recording1);
 	  user2.addRecording(recording2);
@@ -110,6 +112,8 @@ public enum Dao {
           pm.makePersistent(like2);
           pm.makePersistent(comment1);
           pm.makePersistent(comment2);
+          pm.makePersistent(conversation1);
+          pm.makePersistent(conversation2);
           
           for (Key recording : user1.getRecordings()) {
   		  	System.out.println("User 1 Recording Length: " + pm.getObjectById(Recording.class, recording).getRecordingLength());
