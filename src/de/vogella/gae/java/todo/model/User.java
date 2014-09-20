@@ -37,6 +37,9 @@ public class User {
 
 	@Persistent
 	private List<Key> user_conversations;
+	
+	@Persistent
+	private Key user_listened;
 
 	@Persistent
 	private String phone_number;
@@ -187,5 +190,14 @@ public class User {
 		if(!this.user_conversations.add(userconvo.getKey())){
 			this.user_conversations.add(userconvo.getKey());
 		}
+	}
+	
+	//methods for user listened
+	public Key getListened(){
+		return user_listened;
+	}
+
+	public void setListened(Listened listen) {
+		this.user_listened = listen.getKey();
 	}
 }

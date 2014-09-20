@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import de.vogella.gae.java.todo.model.Comment;
 import de.vogella.gae.java.todo.model.Conversation;
 import de.vogella.gae.java.todo.model.Group;
+import de.vogella.gae.java.todo.model.Listened;
 import de.vogella.gae.java.todo.model.Recording;
 import de.vogella.gae.java.todo.model.Reply;
 import de.vogella.gae.java.todo.model.Tag;
@@ -212,11 +213,13 @@ public enum Dao {
 	  Group group2 = new Group("test group2","test group2");
 	  Tag tag1 = new Tag("test tag1");
 	  Tag tag2 = new Tag("test tag2");
+	  Listened listen1 = new Listened();
 	  
 	  pm4.makePersistent(group1);
 	  pm4.makePersistent(group2);
 	  pm4.makePersistent(tag1);
 	  pm4.makePersistent(tag2);
+	  pm4.makePersistent(listen1);
 	  
 	  group1.addUser(user1);
 	  group1.addUser(user2);
@@ -234,6 +237,12 @@ public enum Dao {
 	  tag2.setRecording(recording2);
 	  recording2.addTag(tag1);
 	  recording2.addTag(tag2);
+	  listen1.setUser(user1);
+	  listen1.addRecording(recording1);
+	  listen1.addRecording(recording2);
+	  user1.setListened(listen1);
+	  recording1.addListen(listen1);
+	  recording2.addListen(listen1);
 	  
 	  try {
 		  pm4.makePersistent(group1);
@@ -244,12 +253,18 @@ public enum Dao {
 		  pm4.makePersistent(recording2);
 		  pm4.makePersistent(user1);
 		  pm4.makePersistent(user2);
+		  pm4.makePersistent(listen1);
 
       } finally {
           pm4.close();
       }
 	  
-
+	  System.out.println("Get Latest Candies Query");
+	  int x = 0;
+	  for (Recording rec : recording1.getLatestCandies()) {
+		  System.out.println("Recording #" + x + ": " + rec.getCreateDate() + " Heard: " + recording1.userListen(user1,rec) + "Heard 2: " + recording1.userListenTwo(user1,rec));
+		  x++;
+	  }
 	  
 	  /*
 	  for (Reply reply : user1.getReplies()) {

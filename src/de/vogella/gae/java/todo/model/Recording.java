@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.jdo.PersistenceManager;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
+import javax.jdo.Query;
 
 import com.google.appengine.api.datastore.Key;
+
+import de.vogella.gae.java.todo.dao.PMF;
 
 @PersistenceCapable
 public class Recording{
@@ -37,6 +41,9 @@ public class Recording{
 
 	@Persistent
 	private List<Key> recording_tags;
+	
+	@Persistent
+	private List<Key> recording_listens;
 
 	@Persistent	
 	private Date createDate;
@@ -52,6 +59,12 @@ public class Recording{
 	
 	@Persistent
 	private boolean recording_public;
+	
+	@Persistent
+	private int num_likes;
+	
+	@Persistent
+	private int num_replies;
 
 	public Recording(Date date,String recordingFile,int seconds, boolean active, boolean available) {
 		this.createDate = date;
@@ -64,6 +77,9 @@ public class Recording{
 		this.recording_comments= new ArrayList<Key>();
 		this.recording_replies = new ArrayList<Key>();
 		this.recording_tags = new ArrayList<Key>();
+		this.recording_listens = new ArrayList<Key> ();
+		this.num_likes = 0;
+		this.num_replies = 0;
 	}
 
 	public Key getKey() {
@@ -180,5 +196,66 @@ public class Recording{
 		if(!this.recording_replies.contains(reply.getKey())){
 			this.recording_replies.add(reply.getKey());
 		}
+	}
+	
+	//methods for listened
+	public List<Key> getListens() {
+		return recording_listens;
+	}
+
+	public void addListen(Listened listen) {
+		if(!this.recording_listens.contains(listen.getKey())){
+			this.recording_listens.add(listen.getKey());
+		}
+	}
+	
+	private static PersistenceManager getPersistenceManager() {
+		return PMF.get().getPersistenceManager();
+	}
+	
+	public List<Recording>	getPopularCandies() {
+		return null;
+	}
+	
+	public List<Recording> getLatestCandies() {
+		PersistenceManager mgr = getPersistenceManager();
+		List<Recording> results;
+		Query q = mgr.newQuery(Recording.class);
+		q.setOrdering("createDate desc");
+		try {
+			results = (List<Recording>) q.execute();
+		} finally {
+			q.closeAll();
+		}
+		return results;
+	}
+	
+	public boolean userListen(User user, Recording record) {
+		PersistenceManager mgr = getPersistenceManager();
+		boolean result = false;
+		Key user_listens_key = user.getListened();
+		System.out.println(user_listens_key);
+		List<Key> user_listens = mgr.getObjectById(Listened.class, user_listens_key).getRecordings();
+		int found = user_listens.indexOf(record.getKey());
+		if (found != -1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean userListenTwo (User user, Recording record) {
+		PersistenceManager mgr = getPersistenceManager();
+		Query q = mgr.newQuery(Listened.class);
+		q.setFilter("user_listened_recordings == recording_param");
+		q.declareParameters(Key.class.getName() + " recording_param");
+		List<Listened> candy_listeners = (List<Listened>) q.execute(record.getKey());
+		for (Listened candy : candy_listeners) {
+			System.out.println(candy);
+			if (candy.getUser() == user.getKey()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
